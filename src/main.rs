@@ -4,6 +4,8 @@ use std::process;
 use wrench::FileManager;
 
 fn main() {
+    // args[0] 是执行文件的路径；
+    // env::current_dir() 是执行者的当前目录；
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
