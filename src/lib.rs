@@ -1,19 +1,36 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
+use std::env;
+use std::fs::File;
+use std::io::{Result, Error, ErrorKind};
 
 pub struct FileManager {
-    filename: String,
+    file_path: PathBuf,
 }
 
 impl FileManager {
     pub fn new(filename: String) -> FileManager {
-        FileManager { filename: filename }
+        let path = Path::new(&filename);
+        let file_path = if path.is_absolute() {
+            path.to_path_buf()
+        } else {
+            Path::new(&env::current_dir().unwrap()).join(path)
+        };
+        FileManager { 
+            file_path,
+        }
     }
 
-    pub fn create_file(&self) -> Result<String, String> {
-        let path = Path::new(&self.filename);
-        if path.exists() {
-            return Err(String::from("File already exists"));
+    pub fn create_file(&self) -> Result<String> {
+        let path_str = self.file_path.as_path().display().to_string();
+        if self.file_path.exists() && !self.file_path.is_dir() {
+            return Err(
+                Error::new(
+                    ErrorKind::Other, 
+                    format!("File {:?} already exists", path_str)
+                )
+            );
         }
-        Ok(self.filename.clone())
+        File::create(self.file_path.as_path())?;
+        Ok(path_str)
     }
 }
