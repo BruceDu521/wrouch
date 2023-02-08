@@ -1,4 +1,5 @@
 [package]
+authors = ["Bruce Du <bingxuan_du@126.com>"]
 name = "wrench"
 version = "0.0.1"
 edition = "2021"
