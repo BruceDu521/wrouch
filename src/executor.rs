@@ -54,15 +54,15 @@ impl Executor {
         let mut file: File;
         let datetime = self.parse_time();
         let sys_time: SystemTime;
-        let mod_time = FileTimes::new();
-        let acc_time = FileTimes::new();
+        let mut mod_time = FileTimes::new();
+        let mut acc_time = FileTimes::new();
         if let Some(dt) = datetime.to_owned() {
             sys_time = SystemTime::from(dt);
         } else {
             sys_time = SystemTime::now();
         }
-        mod_time.set_modified(sys_time);
-        acc_time.set_accessed(sys_time);
+        mod_time = mod_time.set_modified(sys_time);
+        acc_time = acc_time.set_accessed(sys_time);
         for path in file_paths {
             let p = Path::new(path);
             if !p.exists() {
@@ -73,7 +73,7 @@ impl Executor {
             } else {
                 file = File::open(path)?
             }
-            if let Err(err) = self.set_time(&file, acc_time, mod_time) {
+            if let Err(err) = self.set_times(&file, acc_time, mod_time) {
                 println!("Set time error: {:?}", err);
                 process::exit(1);
             }
@@ -102,7 +102,8 @@ impl Executor {
         }
     }
 
-    fn set_time(&self, file: &File, acc_time: FileTimes, mod_time: FileTimes) -> Result<()> {
+    fn set_times(&self, file: &File, acc_time: FileTimes, mod_time: FileTimes) -> Result<()> {
+        println!("{:?}", mod_time);
         if Some(true) == self.cli.modification {
             file.set_times(mod_time)?;
         } else if Some(true) == self.cli.access {
