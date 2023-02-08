@@ -1,9 +1,9 @@
 #![feature(file_set_times)]
 use clap::Parser;
 
-mod executor;
+mod cli;
 
-use executor::{Executor, Cli};
+use cli::{Executor, Cli};
 
 fn main() {
     let cli = Cli::parse();
