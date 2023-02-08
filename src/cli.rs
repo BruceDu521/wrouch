@@ -97,7 +97,6 @@ impl Executor {
     }
 
     fn set_times(&self, file: &File, acc_time: FileTimes, mod_time: FileTimes) -> Result<()> {
-        println!("{:?}", mod_time);
         if Some(true) == self.cli.modification {
             file.set_times(mod_time)?;
         } else if Some(true) == self.cli.access {
