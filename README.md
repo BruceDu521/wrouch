@@ -2,6 +2,10 @@
 
 Wrench is a cli tool that implements `touch` by Rust and supports Windows.
 
+## Install
+
+`cargo install wrench`
+
 ## Usage
 
 ```shell
