@@ -40,12 +40,12 @@ impl Executor {
             match self.execute_files(file_paths) {
                 Ok(()) => return,
                 Err(err) => {
-                    println!("Wrench error: {:?}", err);
+                    println!("Wrouch error: {:?}", err);
                     process::exit(1);
                 }
             }
         } else {
-            println!("No file paths to be found, type 'wrench --help/-h' to learn how to use wrench.");
+            println!("No file paths to be found, type 'wrouch --help/-h' to learn how to use wrouch.");
             process::exit(1);
         };
     }

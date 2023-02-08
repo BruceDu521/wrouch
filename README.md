@@ -1,17 +1,17 @@
-# Wrench
+# Wrouch
 
-Wrench is a cli tool that implements `touch` by Rust and supports Windows.
+Wrouch is a cli tool that implements `touch` by Rust and supports Windows.
 
 ## Install
 
-`cargo install wrench`
+`cargo install wrouch`
 
 ## Usage
 
 ```shell
-Wrench is a cli tool that implements `touch` by Rust and supports Windows.
+Wrouch is a cli tool that implements `touch` by Rust and supports Windows.
 
-Usage: wrench [OPTIONS] [FILE_PATHS]...
+Usage: wrouch [OPTIONS] [FILE_PATHS]...
 
 Arguments:
   [FILE_PATHS]...

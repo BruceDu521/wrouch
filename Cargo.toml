@@ -1,12 +1,12 @@
 [package]
 authors = ["Bruce Du <bingxuan_du@126.com>"]
-name = "wrench"
+name = "wrouch"
 version = "0.0.1"
 edition = "2021"
-description = "Wrench is a cli tool that implements `touch` by Rust and supports Windows."
+description = "Wrouch is a cli tool that implements `touch` by Rust and supports Windows."
 license = "MIT/Apache-2.0"
-homepage = "https://github.com/BruceDu521/wrench"
-repository = "https://github.com/BruceDu521/wrench.git"
+homepage = "https://github.com/BruceDu521/wrouch"
+repository = "https://github.com/BruceDu521/wrouch.git"
 readme = "README.md"
 keywords = ["utility", "cli", "touch", "windows"]
 
