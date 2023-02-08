@@ -5,7 +5,7 @@ use std::io::Result;
 use std::time::SystemTime;
 
 use clap::{Parser, ArgAction};
-use chrono::{DateTime, Local};
+use chrono::{DateTime, Local, TimeZone};
 
 
 #[derive(Parser, Debug)]
@@ -52,24 +52,19 @@ impl Executor {
 
     fn execute_files(&self, file_paths: &[String]) -> Result<()> {
         let mut file: File;
-        let datetime = self.parse_time();
-        let sys_time: SystemTime;
+        let datetime = self.get_time();
         let mut mod_time = FileTimes::new();
         let mut acc_time = FileTimes::new();
-        if let Some(dt) = datetime.to_owned() {
-            sys_time = SystemTime::from(dt);
-        } else {
-            sys_time = SystemTime::now();
-        }
-        mod_time = mod_time.set_modified(sys_time);
-        acc_time = acc_time.set_accessed(sys_time);
+        mod_time = mod_time.set_modified(datetime);
+        acc_time = acc_time.set_accessed(datetime);
         for path in file_paths {
             let p = Path::new(path);
             if !p.exists() {
                 if Some(false) == self.cli.no_create {
-                    File::create(p)?;
+                    file = File::create(p)?;
+                } else {
+                    continue;
                 }
-                continue;
             } else {
                 file = File::open(path)?
             }
@@ -81,13 +76,13 @@ impl Executor {
         Ok(())
     }
 
-    fn parse_time(&self) -> Option<DateTime<Local>> {
+    fn get_time(&self) -> SystemTime {
         if let Some(date) = self.cli.date.as_ref() {
             let datetime: DateTime<Local>;
-            match DateTime::parse_from_str(date.as_str(), "%Y-%m-%d %H:%M:%S") {
+            match Local.datetime_from_str(date.as_str(), "%Y-%m-%d %H:%M:%S") {
                 Ok(dt) => datetime = dt.into(),
                 Err(_) => {
-                    match DateTime::parse_from_str(date.as_str(), "%Y-%m-%d") {
+                    match Local.datetime_from_str(date.as_str(), "%Y-%m-%d") {
                         Ok(dt) => datetime = dt.into(),
                         Err(_) => {
                             println!("Cannot parse datetime from {:?}", date);
@@ -96,10 +91,9 @@ impl Executor {
                     }
                 }
             }
-            Some(datetime)
-        } else {
-            None
+            return datetime.into();
         }
+        SystemTime::now()
     }
 
     fn set_times(&self, file: &File, acc_time: FileTimes, mod_time: FileTimes) -> Result<()> {
