@@ -7,6 +7,6 @@ use cli::{Executor, Cli};
 
 fn main() {
     let cli = Cli::parse();
-    let exc = Executor::with_cli(cli);
+    let mut exc = Executor::with_cli(cli);
     exc.execute();
 }
