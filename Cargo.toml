@@ -1,7 +1,7 @@
 [package]
 authors = ["Bruce Du <bingxuan_du@126.com>"]
 name = "wrouch"
-version = "0.0.1"
+version = "0.1.0"
 edition = "2021"
 description = "Wrouch is a cli tool that implements `touch` by Rust and supports Windows."
 license = "MIT/Apache-2.0"
